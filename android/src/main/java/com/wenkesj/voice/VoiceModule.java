@@ -2,9 +2,11 @@ package com.wenkesj.voice;
 
 import android.Manifest;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognitionListener;
@@ -44,6 +46,10 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
   public VoiceModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
+
+    AudioManager amanager=(AudioManager)reactContext.getSystemService(reactContext.AUDIO_SERVICE);
+
+    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
   }
 
   private String getLocale(String locale) {
