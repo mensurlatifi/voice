@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognitionListener;
@@ -49,7 +50,12 @@ public class VoiceModule extends ReactContextBaseJavaModule implements Recogniti
 
     AudioManager amanager=(AudioManager)reactContext.getSystemService(reactContext.AUDIO_SERVICE);
 
-    amanager.setStreamMute(AudioManager.STREAM_SYSTEM, true);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      amanager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0);
+    } else {
+      amanager.setStreamMute(AudioManager.STREAM_MUSIC, true);
+    }
+
   }
 
   private String getLocale(String locale) {
